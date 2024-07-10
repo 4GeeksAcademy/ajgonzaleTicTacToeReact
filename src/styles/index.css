@@ -33,3 +33,15 @@ body {
 .contentCP {
     background-color: gray;
 }
+
+.col {
+    height: 100px;
+}
+
+.weapon {
+    font-size: 60px;
+    color: #dee2e6;
+    width: 105.2px;
+    border: none;
+    background: none;
+}
