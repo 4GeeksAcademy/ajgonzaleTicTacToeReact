@@ -1,24 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+import ChoosePlayers from "./ChoosePlayers";
+import Instruction from "./Instruction";
 
-//create your first component
 const Home = () => {
+
+	const [message, setMessage] = useState('');
+	const [player1username, setPlayer1username] = useState('');
+	const [player2username, setPlayer2username] = useState('');
+	const [player1Weapon, setPlayer1Weapon] = useState('');
+	
+	useEffect(() => {
+		setMessage('Pick a Weapon');
+	  }, []);
+
+	function getPlayerData(data) {
+		setPlayer1username(data.player1);
+		setPlayer2username(data.player2);
+		setPlayer1Weapon(data.weapon);
+		setMessage('It is '+data.weapon+' turn, '+data.player1 + ' go ahead!');
+	}
+
 	return (
-		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+		<div className="d-flex flex-column justify-content-center">
+			<div>
+				<h1 className="text-center mt-5">Tic Tac Toe in React.js</h1>				
+				<Instruction message={message} />
+			</div>
+
+			<ChoosePlayers getPlayerData={getPlayerData} />			
 		</div>
 	);
 };

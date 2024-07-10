@@ -10,3 +10,26 @@
     import 'relative/path/to/stylesheet.scss';
 
 */
+.x {
+    font-size: 80px;
+    color: #e8e82e;
+    background-color: #4a4242;
+    width: 100px;
+}
+
+.o {
+    font-size: 80px;
+    color: #2095dc;
+    background-color: #4a4242;
+    width: 100px;
+}
+
+body {
+    background-color: darkgray;
+    color: white;
+    font-family: 'Space Grotesk';
+}
+
+.contentCP {
+    background-color: gray;
+}
