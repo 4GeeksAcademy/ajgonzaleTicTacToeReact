@@ -11,18 +11,18 @@ const Home = () => {
 	const [message, setMessage] = useState('');
 	const [player1username, setPlayer1username] = useState('');
 	const [player2username, setPlayer2username] = useState('');
-	const [gameTime, setGameTime] = useState('');
+	const [gameTime, setGameTime] = useState(false);
 	const [currentPlayer, setCurrentPlayer] = useState('');
 	const [currentWeapon, setCurrentWeapon] = useState('');
 	const [game, setGame] = useState([['','',''],['','',''],['','','']]);
-	const [winner, setWinner] = useState('false');
+	const [winner, setWinner] = useState(false);
 	
 	useEffect(() => {
 			resetGame();		
 		}, []);
 
 	useEffect(() => {
-		winner == 'true' ? setMessage(currentWeapon+' Wins!, '+currentPlayer+' congrats!') : tooglePlayer();
+		winner ? setMessage(currentWeapon+' Wins!, '+currentPlayer+' congrats!') : tooglePlayer();
 	}, [game]);
 
 	function getPlayerData(data) {
@@ -43,31 +43,26 @@ const Home = () => {
 
 	function checkGame(data) {
 		
-		if (winner == 'true') {
-			setMessage("Game Over,"+currentPlayer+' is the winner!' );
-			return '';
+		if (winner) {
+			setMessage("Game Over, "+currentPlayer+' is the winner!' );
+			
 		} else if (game[data.x][data.y] != '') {
 			setMessage("Try an empty position " + currentPlayer + "  it's still your turn.");
-			return '';
+			
 		} else {
 			let cGame = game.map(row => [...row]);
 			cGame[data.x][data.y] = currentWeapon;
 			setGame(cGame);
-			let x1 = getNextIndex(data.x);
-			let x2 = getNextIndex(x1);
-			let y1 = getNextIndex(data.y);
-			let y2 = getNextIndex(y1);
 
 			//check horizontally
-			cGame[x1][data.y] == currentWeapon && cGame[x2][data.y] == currentWeapon ? setWinner('true') :
+			cGame[getNextIndex(data.x)][data.y] == currentWeapon && cGame[getNextIndex(getNextIndex(data.x))][data.y] == currentWeapon ? setWinner(true) :
 			//check vertically
-			cGame[data.x][y1] == currentWeapon && cGame[data.x][y2] == currentWeapon ? setWinner('true')  :
+			cGame[data.x][getNextIndex(data.y)] == currentWeapon && cGame[data.x][getNextIndex(getNextIndex(data.y))] == currentWeapon ? setWinner(true)  :
 			//check diagonals
 			cGame[0][0] == currentWeapon && cGame[1][1] == currentWeapon && cGame[2][2] == currentWeapon ? 
-			setWinner('true') : 
-			cGame[0][2] == currentWeapon && cGame[1][1] == currentWeapon && cGame[2][0] == currentWeapon ? setWinner('true') : setWinner('false');
-						
-			return '';
+			setWinner(true) : 
+			cGame[0][2] == currentWeapon && cGame[1][1] == currentWeapon && cGame[2][0] == currentWeapon ? setWinner(true) : setWinner(false);
+
 		}	
 	}
 
@@ -81,25 +76,27 @@ const Home = () => {
 	}
 
 	function tooglePlayer() {
-		let str = 'It is ';
-		if (currentWeapon == 'X') {
-			setCurrentWeapon('O');
-			str = str + 'O';
-		} else {
-			setCurrentWeapon('X');
-			str = str + 'X';
+		if (gameTime) {
+			let str = 'It is ';
+			if (currentWeapon == 'X') {
+				setCurrentWeapon('O');
+				str = str + 'O';
+			} else {
+				setCurrentWeapon('X');
+				str = str + 'X';
+			}
+			str = str + ' turn, '
+			if (currentPlayer == player1username) {
+				setCurrentPlayer(player2username);
+				str = str + player2username;
+			} else {
+				setCurrentPlayer(player1username);
+				str = str + player1username;
+			}
+			str = str + ' go ahead!';
+			
+			setMessage(str);
 		}
-		str = str + ' turn, '
-		if (currentPlayer == player1username) {
-			setCurrentPlayer(player2username);
-			str = str + player2username;
-		} else {
-			setCurrentPlayer(player1username);
-			str = str + player1username;
-		}
-		str = str + ' go ahead!';
-		
-		setMessage(str);
 	}
 
 	return (
