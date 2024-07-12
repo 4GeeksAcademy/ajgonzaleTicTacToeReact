@@ -10,6 +10,11 @@
     import 'relative/path/to/stylesheet.scss';
 
 */
+
+.center {
+    align-items: center;
+}
+
 .x {
     font-size: 80px;
     color: #e8e82e;
@@ -24,6 +29,11 @@
     width: 100px;
 }
 
+.o:hover, .x:hover {
+    background-color: #4a4242;
+}
+
+
 body {
     background-color: darkgray;
     color: white;
@@ -32,6 +42,8 @@ body {
 
 .contentCP {
     background-color: gray;
+    width: 750px;
+    
 }
 
 .col {
@@ -44,4 +56,5 @@ body {
     width: 105.2px;
     border: none;
     background: none;
+    text-align: center;
 }
